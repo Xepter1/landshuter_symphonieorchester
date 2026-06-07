@@ -59,14 +59,7 @@ export function SiteHeader({ name, logoUrl }: { name: string; logoUrl?: string |
       <header className="site-header">
       <div className="container nav">
         <Link href="/" className="brand">
-          {logoUrl ? (
-            <img className="brand__logo" src={logoUrl} alt={name} />
-          ) : (
-            <>
-              <small>Landshut</small>
-              {name}
-            </>
-          )}
+          {logoUrl ? <img className="brand__logo" src={logoUrl} alt={name} /> : name}
         </Link>
 
         {/* Desktop-Navigation */}
