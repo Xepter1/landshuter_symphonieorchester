@@ -43,7 +43,6 @@ export default async function HomePage() {
         </div>
         <div className="lso-hero__melt" />
         <div className="lso-hero__rule" />
-        <div className="lso-hero__tag">Saison 2026 / 27</div>
         <div className="lso-hero__grain" />
 
         <div className="lso-hero__inner">
