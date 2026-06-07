@@ -51,13 +51,18 @@ export function SiteFooter({ name, email, phone, address, social }: FooterProps)
               {phone && <li><a href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</a></li>}
               <li><Link href="/kontakt">Kontaktseite</Link></li>
               <li><Link href="/impressum">Impressum</Link></li>
+              <li><Link href="/datenschutz">Datenschutz</Link></li>
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom">
           <span>© {year} {name}</span>
-          <span><Link href="/impressum">Impressum</Link></span>
+          <span>
+            <Link href="/impressum">Impressum</Link>
+            {' · '}
+            <Link href="/datenschutz">Datenschutz</Link>
+          </span>
         </div>
       </div>
     </footer>

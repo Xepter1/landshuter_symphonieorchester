@@ -9,6 +9,34 @@ import { makePlaceholder } from './images'
 export async function seedIfEmpty(payload: Payload) {
   await seedContentIfEmpty(payload)
   await seedGalleryIfEmpty(payload)
+  await seedLegalIfEmpty(payload)
+}
+
+// Standard-Datenschutzerklärung, passend zum tatsächlichen Datenverhalten
+// dieser Seite (kein Tracking, keine Besucher-Cookies, Kontakt per E-Mail).
+// MUSS vor Echtbetrieb rechtlich geprüft werden.
+function datenschutzText() {
+  return rt([
+    ['h2', '1. Datenschutz auf einen Blick'],
+    'Diese Website verarbeitet personenbezogene Daten nur im technisch notwendigen Umfang. Es werden keine Analyse- oder Tracking-Dienste eingesetzt und für Besucherinnen und Besucher keine Cookies gesetzt.',
+    ['h2', '2. Verantwortlicher'],
+    'Verantwortlich für die Datenverarbeitung auf dieser Website ist die im Impressum genannte Stelle. Die vollständigen Kontaktdaten finden Sie auf unserer Impressum-Seite.',
+    ['h2', '3. Hosting & Server-Logfiles'],
+    'Beim Aufruf dieser Website erfasst der Hosting-Server automatisch Informationen in sogenannten Server-Logfiles, die Ihr Browser übermittelt: Browsertyp und -version, verwendetes Betriebssystem, Referrer-URL, Hostname des zugreifenden Rechners, Uhrzeit der Serveranfrage sowie die IP-Adresse.',
+    'Diese Daten werden nicht mit anderen Datenquellen zusammengeführt und dienen ausschließlich dem sicheren und stabilen Betrieb der Website. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer fehlerfreien Darstellung und Sicherheit).',
+    ['h2', '4. Cookies'],
+    'Für normale Besucherinnen und Besucher werden keine Cookies gesetzt. Lediglich im geschützten Verwaltungsbereich (Login) wird ein technisch notwendiges Cookie verwendet, um die Anmeldung aufrechtzuerhalten. Dieses ist für den Betrieb erforderlich und bedarf keiner Einwilligung.',
+    ['h2', '5. Kontaktaufnahme'],
+    'Wenn Sie uns per E-Mail kontaktieren, werden Ihre Angaben zur Bearbeitung der Anfrage und für mögliche Anschlussfragen gespeichert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b bzw. lit. f DSGVO. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.',
+    ['h2', '6. Keine Analyse- und Tracking-Tools'],
+    'Diese Website nutzt derzeit keine Webanalyse-Dienste (z. B. Google Analytics), keine Werbe-Netzwerke und keine eingebetteten Inhalte von Drittanbietern (z. B. YouTube, Google Maps). Sollte sich dies künftig ändern, wird diese Erklärung entsprechend ergänzt und – sofern erforderlich – eine Einwilligung (Cookie-Banner) eingeholt.',
+    ['h2', '7. Ihre Rechte'],
+    'Sie haben jederzeit das Recht auf Auskunft über Ihre gespeicherten personenbezogenen Daten (Art. 15 DSGVO), deren Berichtigung (Art. 16), Löschung (Art. 17) oder Einschränkung der Verarbeitung (Art. 18), das Recht auf Datenübertragbarkeit (Art. 20) sowie ein Widerspruchsrecht (Art. 21). Wenden Sie sich dazu an die im Impressum genannte Stelle.',
+    ['h2', '8. Beschwerderecht'],
+    'Ihnen steht ein Beschwerderecht bei einer Datenschutz-Aufsichtsbehörde zu, insbesondere in dem Mitgliedstaat Ihres Aufenthaltsorts oder des mutmaßlichen Verstoßes.',
+    ['h2', '9. Aktualität'],
+    'Diese Datenschutzerklärung wird angepasst, sobald Änderungen an der Website oder an gesetzlichen Vorgaben dies erforderlich machen.',
+  ]) as any
 }
 
 async function seedContentIfEmpty(payload: Payload) {
@@ -58,6 +86,7 @@ async function seedContentIfEmpty(payload: Payload) {
         ['h3', 'Verantwortlich für den Inhalt'],
         'Max Mustermann, Anschrift wie oben.',
       ]) as any,
+      datenschutz: datenschutzText(),
     },
   })
 
@@ -254,4 +283,17 @@ async function seedGalleryIfEmpty(payload: Payload) {
   }
 
   payload.logger.info('✅ Galerie angelegt.')
+}
+
+// Setzt die Datenschutzerklärung einmalig, falls noch keine hinterlegt ist.
+// Idempotent – überschreibt eine bereits gepflegte Erklärung nicht.
+async function seedLegalIfEmpty(payload: Payload) {
+  const settings = await payload.findGlobal({ slug: 'settings', depth: 0 })
+  if (settings?.datenschutz) return
+
+  payload.logger.info('📄 Datenschutzerklärung (Standardtext) wird gesetzt …')
+  await payload.updateGlobal({
+    slug: 'settings',
+    data: { ...settings, datenschutz: datenschutzText() } as any,
+  })
 }

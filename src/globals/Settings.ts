@@ -135,6 +135,20 @@ export const Settings: GlobalConfig = {
             },
           ],
         },
+        {
+          label: 'Datenschutz',
+          fields: [
+            {
+              name: 'datenschutz',
+              type: 'richText',
+              label: 'Datenschutzerklärung',
+              admin: {
+                description:
+                  'Vorausgefüllter Standardtext passend zu dieser Website. WICHTIG: vor dem Echtbetrieb von einer fachkundigen Person (Anwalt/Datenschutzbeauftragte) prüfen lassen und an die tatsächlichen Gegebenheiten anpassen.',
+              },
+            },
+          ],
+        },
       ],
     },
   ],

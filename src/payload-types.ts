@@ -741,6 +741,24 @@ export interface Setting {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Vorausgefüllter Standardtext passend zu dieser Website. WICHTIG: vor dem Echtbetrieb von einer fachkundigen Person (Anwalt/Datenschutzbeauftragte) prüfen lassen und an die tatsächlichen Gegebenheiten anpassen.
+   */
+  datenschutz?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -774,6 +792,7 @@ export interface SettingsSelect<T extends boolean = true> {
         id?: T;
       };
   impressum?: T;
+  datenschutz?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
