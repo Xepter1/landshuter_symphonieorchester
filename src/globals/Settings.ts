@@ -41,6 +41,40 @@ export const Settings: GlobalConfig = {
           ],
         },
         {
+          label: 'Banner',
+          fields: [
+            {
+              name: 'banner',
+              type: 'group',
+              label: 'Ankündigungs-Banner',
+              admin: {
+                description: 'Auffälliger Hinweis ganz oben auf jeder Seite (z. B. Kartenvorverkauf).',
+              },
+              fields: [
+                {
+                  name: 'enabled',
+                  type: 'checkbox',
+                  label: 'Banner anzeigen',
+                  defaultValue: false,
+                },
+                {
+                  name: 'text',
+                  type: 'text',
+                  label: 'Text',
+                  admin: { description: 'z. B. „🎟️ Kartenvorverkauf für das Frühjahrskonzert läuft!"' },
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    { name: 'linkLabel', type: 'text', label: 'Button-Text (optional)', admin: { width: '50%' } },
+                    { name: 'linkUrl', type: 'text', label: 'Button-Link (optional)', admin: { width: '50%' } },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
           label: 'Startseite',
           fields: [
             {

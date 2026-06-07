@@ -71,6 +71,7 @@ export interface Config {
     events: Event;
     news: News;
     members: Member;
+    albums: Album;
     media: Media;
     users: User;
     'payload-kv': PayloadKv;
@@ -84,6 +85,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
     members: MembersSelect<false> | MembersSelect<true>;
+    albums: AlbumsSelect<false> | AlbumsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -243,12 +245,6 @@ export interface Event {
    */
   performers?: (number | Member)[] | null;
   flyer?: (number | null) | Media;
-  gallery?:
-    | {
-        image: number | Media;
-        id?: string | null;
-      }[]
-    | null;
   ticketUrl?: string | null;
   /**
    * Abhaken = auf der Website sichtbar.
@@ -327,6 +323,34 @@ export interface News {
   createdAt: string;
 }
 /**
+ * Foto-Alben für die Bildergalerie der Website.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "albums".
+ */
+export interface Album {
+  id: number;
+  title: string;
+  /**
+   * Wird aus dem Titel erzeugt, falls leer.
+   */
+  slug?: string | null;
+  date?: string | null;
+  description?: string | null;
+  /**
+   * Wird in der Übersicht angezeigt. Leer = erstes Foto wird genommen.
+   */
+  coverImage?: (number | null) | Media;
+  /**
+   * Mehrere Bilder gleichzeitig per Drag & Drop hochladen.
+   */
+  photos?: (number | Media)[] | null;
+  relatedEvent?: (number | null) | Event;
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -391,6 +415,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'members';
         value: number | Member;
+      } | null)
+    | ({
+        relationTo: 'albums';
+        value: number | Album;
       } | null)
     | ({
         relationTo: 'media';
@@ -465,12 +493,6 @@ export interface EventsSelect<T extends boolean = true> {
   description?: T;
   performers?: T;
   flyer?: T;
-  gallery?:
-    | T
-    | {
-        image?: T;
-        id?: T;
-      };
   ticketUrl?: T;
   published?: T;
   updatedAt?: T;
@@ -502,6 +524,22 @@ export interface MembersSelect<T extends boolean = true> {
   photo?: T;
   bio?: T;
   sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "albums_select".
+ */
+export interface AlbumsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  date?: T;
+  description?: T;
+  coverImage?: T;
+  photos?: T;
+  relatedEvent?: T;
+  published?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -632,6 +670,18 @@ export interface Setting {
   orchestraName: string;
   tagline?: string | null;
   logo?: (number | null) | Media;
+  /**
+   * Auffälliger Hinweis ganz oben auf jeder Seite (z. B. Kartenvorverkauf).
+   */
+  banner?: {
+    enabled?: boolean | null;
+    /**
+     * z. B. „🎟️ Kartenvorverkauf für das Frühjahrskonzert läuft!"
+     */
+    text?: string | null;
+    linkLabel?: string | null;
+    linkUrl?: string | null;
+  };
   heroImage?: (number | null) | Media;
   intro?: {
     root: {
@@ -702,6 +752,14 @@ export interface SettingsSelect<T extends boolean = true> {
   orchestraName?: T;
   tagline?: T;
   logo?: T;
+  banner?:
+    | T
+    | {
+        enabled?: T;
+        text?: T;
+        linkLabel?: T;
+        linkUrl?: T;
+      };
   heroImage?: T;
   intro?: T;
   email?: T;

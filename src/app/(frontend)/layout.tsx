@@ -3,6 +3,8 @@ import React from 'react'
 import { getPayloadClient } from '@/lib/payload'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
+import { Banner } from '@/components/Banner'
+import { mediaUrl } from '@/lib/format'
 import './styles.css'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,11 +24,16 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   const payload = await getPayloadClient()
   const settings = await payload.findGlobal({ slug: 'settings' })
   const name = settings?.orchestraName || 'Symphonieorchester'
+  const logoUrl = mediaUrl(settings?.logo)
+  const banner = settings?.banner
 
   return (
     <html lang="de">
       <body>
-        <SiteHeader name={name} />
+        {banner?.enabled && banner?.text && (
+          <Banner text={banner.text} linkLabel={banner.linkLabel} linkUrl={banner.linkUrl} />
+        )}
+        <SiteHeader name={name} logoUrl={logoUrl} />
         <main>{children}</main>
         <SiteFooter
           name={name}

@@ -5,17 +5,24 @@ const navItems = [
   { href: '/konzerte', label: 'Konzerte' },
   { href: '/seite/ueber-uns', label: 'Über uns' },
   { href: '/mitwirkende', label: 'Mitwirkende' },
+  { href: '/galerie', label: 'Galerie' },
   { href: '/news', label: 'Neuigkeiten' },
   { href: '/kontakt', label: 'Kontakt' },
 ]
 
-export function SiteHeader({ name }: { name: string }) {
+export function SiteHeader({ name, logoUrl }: { name: string; logoUrl?: string | null }) {
   return (
     <header className="site-header">
       <div className="container nav">
         <Link href="/" className="brand">
-          <small>Landshut</small>
-          {name}
+          {logoUrl ? (
+            <img className="brand__logo" src={logoUrl} alt={name} />
+          ) : (
+            <>
+              <small>Landshut</small>
+              {name}
+            </>
+          )}
         </Link>
 
         {/* CSS-only Mobile-Menü (kein JavaScript nötig) */}

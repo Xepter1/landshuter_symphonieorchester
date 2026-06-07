@@ -1,10 +1,17 @@
 import type { Payload } from 'payload'
 import { rt } from './richtext'
+import { makePlaceholder } from './images'
 
-// Befüllt die Website einmalig mit realistischen Demo-Inhalten,
-// damit man das Design sofort sieht. Läuft nur, wenn noch keine
-// Konzerte existieren (idempotent).
+// Orchestriert das Seeding: Grundinhalte (falls keine Konzerte da sind) und
+// die Galerie/Bilder (falls keine Alben da sind). Beide Teile sind einzeln
+// abgesichert, damit z. B. eine bereits laufende Installation nachträglich
+// die Galerie bekommt.
 export async function seedIfEmpty(payload: Payload) {
+  await seedContentIfEmpty(payload)
+  await seedGalleryIfEmpty(payload)
+}
+
+async function seedContentIfEmpty(payload: Payload) {
   const existing = await payload.count({ collection: 'events' })
   if (existing.totalDocs > 0) return
 
@@ -24,6 +31,12 @@ export async function seedIfEmpty(payload: Payload) {
     data: {
       orchestraName: 'Landshuter Symphonieorchester',
       tagline: 'Sinfonische Musik mit Leidenschaft – getragen von Menschen aus der Region.',
+      banner: {
+        enabled: true,
+        text: '🎟️ Kartenvorverkauf für das Frühjahrskonzert läuft!',
+        linkLabel: 'Zu den Konzerten',
+        linkUrl: '/konzerte',
+      },
       intro: rt([
         'Das Landshuter Symphonieorchester vereint engagierte Musikerinnen und Musiker aus Stadt und Landkreis. Von großer Sinfonik bis zu kammermusikalischen Projekten erarbeiten wir ein vielfältiges Repertoire – und bringen es in Konzerten überall in Niederbayern auf die Bühne.',
         'Unter der Leitung unseres Dirigenten und mit wechselnden Solist:innen entstehen Programme, die klassische Meisterwerke und überraschende Entdeckungen verbinden.',
@@ -157,4 +170,88 @@ export async function seedIfEmpty(payload: Payload) {
   })
 
   payload.logger.info('✅ Demo-Inhalte angelegt.')
+}
+
+// Galerie + Platzhalterbilder. Eigener Guard (Alben), damit auch eine bereits
+// bestehende Installation die Galerie nachträglich erhält.
+async function seedGalleryIfEmpty(payload: Payload) {
+  const existing = await payload.count({ collection: 'albums' })
+  if (existing.totalDocs > 0) return
+
+  payload.logger.info('🖼️  Seeding Galerie + Platzhalterbilder …')
+
+  // Farbpaletten (innerhalb des Bordeaux/Gold-Designs)
+  const palettes = [
+    ['#4a1f1f', '#7a2e2e'],
+    ['#5c2222', '#b08d57'],
+    ['#2a1414', '#6e2a2a'],
+    ['#6e2a2a', '#b08d57'],
+    ['#3a1a1a', '#8a3a3a'],
+  ]
+
+  const makeAlbumPhotos = async (prefix: string, count: number) => {
+    const ids: number[] = []
+    for (let i = 0; i < count; i++) {
+      const [from, to] = palettes[i % palettes.length]
+      ids.push(
+        await makePlaceholder(payload, {
+          name: `${prefix}-${i + 1}.jpg`,
+          label: `${prefix} · Foto ${i + 1}`,
+          from,
+          to,
+        }),
+      )
+    }
+    return ids
+  }
+
+  // Album 1: Frühjahrskonzert
+  const photos1 = await makeAlbumPhotos('Fruehjahr', 6)
+  await payload.create({
+    collection: 'albums',
+    data: {
+      title: 'Frühjahrskonzert 2026',
+      slug: 'fruehjahrskonzert-2026',
+      date: new Date().toISOString(),
+      description: 'Impressionen unseres großen Frühjahrskonzerts im Stadttheater.',
+      coverImage: photos1[0],
+      photos: photos1,
+      published: true,
+    },
+  })
+
+  // Album 2: Probenwochenende
+  const photos2 = await makeAlbumPhotos('Probe', 4)
+  await payload.create({
+    collection: 'albums',
+    data: {
+      title: 'Probenwochenende',
+      slug: 'probenwochenende',
+      date: new Date().toISOString(),
+      description: 'Konzentriert und mit Freude – Eindrücke von unserem Probenwochenende.',
+      coverImage: photos2[0],
+      photos: photos2,
+      published: true,
+    },
+  })
+
+  // Hero-Bild der Startseite setzen, falls noch keines hinterlegt ist.
+  // (depth:0 → Relationen als IDs, damit das Zurückschreiben sauber bleibt.)
+  const settings = await payload.findGlobal({ slug: 'settings', depth: 0 })
+  if (!settings?.heroImage) {
+    const heroId = await makePlaceholder(payload, {
+      name: 'hero.jpg',
+      label: '', // dezenter Verlauf, kein großer Schriftzug hinter der Überschrift
+      from: '#2a1414',
+      to: '#6e2a2a',
+      width: 1600,
+      height: 900,
+    })
+    await payload.updateGlobal({
+      slug: 'settings',
+      data: { ...settings, heroImage: heroId } as any,
+    })
+  }
+
+  payload.logger.info('✅ Galerie angelegt.')
 }

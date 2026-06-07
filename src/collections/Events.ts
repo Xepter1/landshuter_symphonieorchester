@@ -69,20 +69,6 @@ export const Events: CollectionConfig = {
       label: 'Konzertflyer (PDF oder Bild)',
     },
     {
-      name: 'gallery',
-      type: 'array',
-      label: 'Fotos (Galerie)',
-      labels: { singular: 'Foto', plural: 'Fotos' },
-      fields: [
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          required: true,
-        },
-      ],
-    },
-    {
       name: 'ticketUrl',
       type: 'text',
       label: 'Link zum Ticketverkauf (optional)',

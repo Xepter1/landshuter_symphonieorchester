@@ -39,6 +39,7 @@ export function SiteFooter({ name, email, phone, address, social }: FooterProps)
               <li><Link href="/konzerte">Konzerte</Link></li>
               <li><Link href="/seite/ueber-uns">Über uns</Link></li>
               <li><Link href="/mitwirkende">Mitwirkende</Link></li>
+              <li><Link href="/galerie">Galerie</Link></li>
               <li><Link href="/news">Neuigkeiten</Link></li>
             </ul>
           </div>

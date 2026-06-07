@@ -73,7 +73,7 @@ export default async function HomePage() {
           ) : (
             <div className="grid">
               {upcoming.docs.map((ev: any) => {
-                const img = mediaUrl(ev.flyer, 'card') || (ev.gallery?.[0]?.image && mediaUrl(ev.gallery[0].image, 'card'))
+                const img = mediaUrl(ev.flyer, 'card')
                 return (
                   <article className="card" key={ev.id}>
                     {img && <img className="card__media" src={img} alt={ev.title} />}

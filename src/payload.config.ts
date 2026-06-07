@@ -11,6 +11,7 @@ import { Pages } from './collections/Pages'
 import { Events } from './collections/Events'
 import { News } from './collections/News'
 import { Members } from './collections/Members'
+import { Albums } from './collections/Albums'
 import { Settings } from './globals/Settings'
 import { seedIfEmpty } from './seed/seed'
 
@@ -29,7 +30,7 @@ export default buildConfig({
     },
   },
   // Reihenfolge = Reihenfolge in der Admin-Sidebar
-  collections: [Pages, Events, News, Members, Media, Users],
+  collections: [Pages, Events, News, Members, Albums, Media, Users],
   globals: [Settings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
