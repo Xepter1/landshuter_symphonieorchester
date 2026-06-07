@@ -24,6 +24,9 @@ services:
       # Datenbank- und Medienpfad liegen auf persistenten Volumes
       DATABASE_URI: file:/app/data/landshuter.db
       MEDIA_DIR: /app/media
+      # Öffentliche Adresse – NUR setzen, wenn die Seite über eine Domain läuft
+      # (für Admin-Login/CORS hinter Reverse-Proxy). Über IP:Port leer lassen.
+      PUBLIC_URL: ${PUBLIC_URL:-}
     volumes:
       - lso_data:/app/data     # SQLite-Datenbank (bleibt bei Updates erhalten)
       - lso_media:/app/media   # hochgeladene Bilder & PDF-Flyer

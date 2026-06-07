@@ -18,7 +18,17 @@ import { seedIfEmpty } from './seed/seed'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Öffentliche Adresse der Seite (z. B. https://orchester.de).
+// Nur nötig, sobald die Seite über eine Domain läuft – dann braucht Payload
+// diese Angabe, damit das Admin-Login (Cookies/CSRF) sauber funktioniert.
+// Lokal/über IP:Port leer lassen – dann verhält sich alles wie bisher.
+const publicURL = process.env.PUBLIC_URL || ''
+
 export default buildConfig({
+  ...(publicURL ? { serverURL: publicURL } : {}),
+  // CORS/CSRF auf die eigene Domain beschränken, sobald PUBLIC_URL gesetzt ist.
+  cors: publicURL ? [publicURL] : undefined,
+  csrf: publicURL ? [publicURL] : undefined,
   admin: {
     user: Users.slug,
     importMap: {

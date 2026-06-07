@@ -11,12 +11,30 @@ export async function generateMetadata(): Promise<Metadata> {
   const payload = await getPayloadClient()
   const settings = await payload.findGlobal({ slug: 'settings' })
   const name = settings?.orchestraName || 'Landshuter Symphonieorchester'
+  const description = settings?.tagline || 'Konzerte, Termine und Neuigkeiten des Orchesters.'
+  const base = process.env.PUBLIC_URL || 'http://localhost:3000'
+  const ogImage = mediaUrl(settings?.heroImage, 'hero')
+
   return {
+    metadataBase: new URL(base),
     title: {
       default: name,
       template: `%s · ${name}`,
     },
-    description: settings?.tagline || 'Konzerte, Termine und Neuigkeiten des Orchesters.',
+    description,
+    openGraph: {
+      title: name,
+      description,
+      siteName: name,
+      locale: 'de_DE',
+      type: 'website',
+      ...(ogImage ? { images: [{ url: ogImage }] } : {}),
+    },
+    twitter: {
+      card: ogImage ? 'summary_large_image' : 'summary',
+      title: name,
+      description,
+    },
   }
 }
 
