@@ -37,10 +37,10 @@ export default async function HomePage() {
         {heroImg && <img className="hero__img" src={heroImg} alt={mediaAlt(settings?.heroImage)} />}
         <div className="container">
           <div className="hero__inner">
-            <p className="eyebrow">Klassische Musik aus Niederbayern</p>
-            <h1>{name}</h1>
-            {settings?.tagline && <p className="lead">{settings.tagline}</p>}
-            <div className="hero__cta">
+            <p className="eyebrow reveal d1">Klassische Musik aus Niederbayern</p>
+            <h1 className="reveal d2">{name}</h1>
+            {settings?.tagline && <p className="lead reveal d3">{settings.tagline}</p>}
+            <div className="hero__cta reveal d4">
               <Link href="/konzerte" className="btn">Konzerte &amp; Termine</Link>
               <Link href="/seite/ueber-uns" className="btn btn--ghost">Über uns</Link>
             </div>

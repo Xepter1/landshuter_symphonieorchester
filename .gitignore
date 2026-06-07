@@ -26,3 +26,6 @@ npm-debug.log*
 .vscode
 *.tsbuildinfo
 next-env.d.ts
+
+# Vertriebs-/Angebotsunterlagen – lokal, nicht ins Repo
+/vertrieb/

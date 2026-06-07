@@ -1,11 +1,27 @@
 import type { Metadata } from 'next'
 import React from 'react'
+import { Fraunces, Hanken_Grotesk } from 'next/font/google'
 import { getPayloadClient } from '@/lib/payload'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { Banner } from '@/components/Banner'
 import { mediaUrl } from '@/lib/format'
 import './styles.css'
+
+// Selbst-gehostete Schriften (kein Google-Request beim Besucher → DSGVO-sauber)
+const display = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+})
+const body = Hanken_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-body',
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+})
 
 export async function generateMetadata(): Promise<Metadata> {
   const payload = await getPayloadClient()
@@ -46,7 +62,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   const banner = settings?.banner
 
   return (
-    <html lang="de">
+    <html lang="de" className={`${display.variable} ${body.variable}`}>
       <body>
         {banner?.enabled && banner?.text && (
           <Banner text={banner.text} linkLabel={banner.linkLabel} linkUrl={banner.linkUrl} />
