@@ -264,23 +264,9 @@ async function seedGalleryIfEmpty(payload: Payload) {
     },
   })
 
-  // Hero-Bild der Startseite setzen, falls noch keines hinterlegt ist.
-  // (depth:0 → Relationen als IDs, damit das Zurückschreiben sauber bleibt.)
-  const settings = await payload.findGlobal({ slug: 'settings', depth: 0 })
-  if (!settings?.heroImage) {
-    const heroId = await makePlaceholder(payload, {
-      name: 'hero.jpg',
-      label: '', // dezenter Verlauf, kein großer Schriftzug hinter der Überschrift
-      from: '#2a1414',
-      to: '#6e2a2a',
-      width: 1600,
-      height: 900,
-    })
-    await payload.updateGlobal({
-      slug: 'settings',
-      data: { ...settings, heroImage: heroId } as any,
-    })
-  }
+  // Kein Hero-Platzhalter mehr: das Frontend nutzt standardmäßig das
+  // gebündelte Solisten-Foto (public/hero-solist.jpg). Über Einstellungen →
+  // Startseite → Hero-Bild lässt sich jederzeit ein eigenes Bild setzen.
 
   payload.logger.info('✅ Galerie angelegt.')
 }

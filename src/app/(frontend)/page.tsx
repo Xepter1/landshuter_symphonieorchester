@@ -27,23 +27,39 @@ export default async function HomePage() {
     }),
   ])
 
-  const heroImg = mediaUrl(settings?.heroImage, 'hero')
+  // Foto: CMS-Hero-Bild bevorzugen, sonst das gebündelte Solisten-Foto
+  const heroPhoto = mediaUrl(settings?.heroImage, 'hero') || '/hero-solist.jpg'
+  const heroAlt = mediaAlt(settings?.heroImage) || 'Solistin des Landshuter Symphonieorchesters'
   const name = settings?.orchestraName || 'Landshuter Symphonieorchester'
+  const tagline =
+    settings?.tagline || 'Sinfonische Musik mit Leidenschaft — getragen von Menschen aus der Region.'
 
   return (
     <>
-      {/* Hero */}
-      <section className="hero">
-        {heroImg && <img className="hero__img" src={heroImg} alt={mediaAlt(settings?.heroImage)} />}
-        <div className="container">
-          <div className="hero__inner">
-            <p className="eyebrow reveal d1">Klassische Musik aus Niederbayern</p>
-            <h1 className="reveal d2">{name}</h1>
-            {settings?.tagline && <p className="lead reveal d3">{settings.tagline}</p>}
-            <div className="hero__cta reveal d4">
-              <Link href="/konzerte" className="btn">Konzerte &amp; Termine</Link>
-              <Link href="/seite/ueber-uns" className="btn btn--ghost">Über uns</Link>
-            </div>
+      {/* Hero (Editorial – Solisten-Foto wächst aus dem Bordeaux) */}
+      <section className="lso-hero" aria-label={name}>
+        <div className="lso-hero__photo">
+          <img src={heroPhoto} alt={heroAlt} />
+        </div>
+        <div className="lso-hero__melt" />
+        <div className="lso-hero__rule" />
+        <div className="lso-hero__tag">Saison 2026 / 27</div>
+        <div className="lso-hero__grain" />
+
+        <div className="lso-hero__inner">
+          <p className="lso-hero__eyebrow reveal d1">Klassische Musik aus Niederbayern</p>
+          <h1 className="lso-hero__title reveal d2">
+            Landshuter<br />
+            <em>Symphonie</em>{'­'}orchester
+          </h1>
+          <p className="lso-hero__subtitle reveal d3">{tagline}</p>
+          <div className="lso-hero__cta reveal d4">
+            <Link className="lso-hero__btn lso-hero__btn--primary" href="/konzerte">
+              Konzerte &amp; Termine
+            </Link>
+            <Link className="lso-hero__btn lso-hero__btn--ghost" href="/seite/ueber-uns">
+              Über uns
+            </Link>
           </div>
         </div>
       </section>

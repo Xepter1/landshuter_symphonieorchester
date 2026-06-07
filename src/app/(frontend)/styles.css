@@ -254,6 +254,85 @@ img { max-width: 100%; height: auto; display: block; }
 .hero__cta .btn--ghost { background: transparent; color: #fdf8ef; border-color: rgba(253,248,239,0.45); }
 .hero__cta .btn--ghost:hover { background: #fdf8ef; color: var(--wine-deep); }
 
+/* ---------- Hero (Editorial – Solist wächst aus dem Bordeaux) ---------- */
+.lso-hero {
+  --lso-wine-deep: #160c0f; --lso-wine: #2b1318; --lso-wine-glow: #3f1b22;
+  --lso-gold: #bb9444; --lso-gold-soft: #c9a85e; --lso-cream: #f4ede1; --lso-cream-dim: #cdbfb4;
+  --lso-serif: var(--font-display), Georgia, serif;
+  --lso-sans: var(--font-body), system-ui, sans-serif;
+  position: relative; width: 100%; min-height: 600px; height: 74vh; max-height: 780px;
+  overflow: hidden; isolation: isolate;
+  background: radial-gradient(110% 120% at 60% 40%, var(--lso-wine-glow) 0%, var(--lso-wine) 48%, var(--lso-wine-deep) 100%);
+  color: var(--lso-cream); font-family: var(--lso-sans);
+}
+.lso-hero__photo {
+  position: absolute; top: 0; right: -2%; height: 100%; width: 62%; z-index: 1; pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.5) 18%, #000 40%);
+          mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.5) 18%, #000 40%);
+}
+.lso-hero__photo img {
+  height: 100%; width: 100%; object-fit: cover; object-position: 64% 26%; display: block;
+  will-change: transform; animation: lso-kenburns 26s ease-in-out infinite alternate;
+}
+.lso-hero__melt {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(90deg, rgba(43,19,24,.96) 18%, rgba(43,19,24,.3) 42%, transparent 60%);
+}
+.lso-hero__rule { position: absolute; z-index: 4; pointer-events: none; top: 34px; left: 34px; right: 34px; bottom: 34px; border: 1px solid rgba(187,148,68,.30); }
+.lso-hero__tag {
+  position: absolute; z-index: 5; left: 18px; top: 50%; transform: rotate(180deg);
+  writing-mode: vertical-rl; font-size: 12px; letter-spacing: .34em; text-transform: uppercase; color: rgba(201,168,94,.85);
+}
+.lso-hero__grain {
+  position: absolute; inset: 0; z-index: 6; pointer-events: none; opacity: .5; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+.lso-hero__inner {
+  position: relative; z-index: 5; height: 100%; max-width: var(--max); margin: 0 auto; padding: 0 1.5rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.lso-hero__eyebrow {
+  display: flex; align-items: center; gap: 16px; font-weight: 600; font-size: 13px; letter-spacing: .28em;
+  text-transform: uppercase; color: var(--lso-gold-soft); margin: 0 0 22px;
+}
+.lso-hero__eyebrow::before { content: ""; width: 42px; height: 1px; background: var(--lso-gold); opacity: .8; }
+.lso-hero__title {
+  font-family: var(--lso-serif); font-weight: 500; color: var(--lso-cream);
+  font-size: clamp(2.6rem, 5.6vw, 4rem); line-height: 1.02; letter-spacing: -.012em; margin: 0; max-width: 14ch; text-wrap: balance;
+}
+.lso-hero__title em { font-style: italic; color: var(--lso-gold-soft); font-weight: 400; }
+.lso-hero__subtitle { color: var(--lso-cream-dim); font-size: 1.2rem; line-height: 1.55; margin: 26px 0 0; max-width: 34ch; }
+.lso-hero__cta { display: flex; gap: 14px; margin-top: 38px; flex-wrap: wrap; }
+.lso-hero__btn {
+  font-weight: 600; font-size: 0.97rem; letter-spacing: .01em; padding: 0.95rem 1.8rem; border-radius: 3px;
+  cursor: pointer; border: 1px solid transparent; text-decoration: none; display: inline-block; white-space: nowrap;
+  transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
+}
+.lso-hero__btn--primary { background: var(--lso-gold); color: #2a1709; box-shadow: 0 8px 24px -10px rgba(187,148,68,.8); }
+.lso-hero__btn--primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -10px rgba(187,148,68,.9); color: #2a1709; }
+.lso-hero__btn--ghost { background: transparent; color: var(--lso-cream); border-color: rgba(244,237,225,.32); }
+.lso-hero__btn--ghost:hover { border-color: var(--lso-cream); background: rgba(244,237,225,.06); color: var(--lso-cream); }
+@keyframes lso-kenburns { from { transform: scale(1); } to { transform: scale(1.06); } }
+
+@media (max-width: 880px) {
+  .lso-hero { height: auto; min-height: 660px; max-height: none; }
+  .lso-hero__photo {
+    width: 100%; height: 56%; top: auto; bottom: 0; right: 0;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 48%);
+            mask-image: linear-gradient(180deg, transparent 0%, #000 48%);
+  }
+  .lso-hero__photo img { object-position: 50% 28%; }
+  .lso-hero__inner { padding: 3.5rem 1.5rem 320px; justify-content: flex-start; }
+  .lso-hero__rule { display: none; }
+  .lso-hero__tag { left: 10px; font-size: 10px; }
+  .lso-hero__subtitle { font-size: 1.08rem; }
+  .lso-hero__cta { flex-direction: column; align-items: stretch; }
+  .lso-hero__btn { text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lso-hero__photo img { animation: none; }
+}
+
 /* ---------- Lade-Animation (gestaffelt) ---------- */
 @keyframes reveal-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
 .reveal { opacity: 0; animation: reveal-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
