@@ -1,0 +1,28 @@
+/node_modules
+/.next/
+/out/
+/build
+
+# Datenbank (SQLite) und hochgeladene Medien — nicht ins Repo
+*.db
+*.db-shm
+*.db-wal
+/media/
+
+# Env & Logs
+.env
+*.log
+npm-debug.log*
+
+# Payload generierte Dateien werden committet, ABER:
+# (payload-types.ts und importMap.js gehören ins Repo)
+
+# OS
+.DS_Store
+
+# Vercel / Editor
+.vercel
+.idea
+.vscode
+*.tsbuildinfo
+next-env.d.ts

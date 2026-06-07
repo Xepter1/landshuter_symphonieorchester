@@ -1,0 +1,33 @@
+# Stack für Portainer (Build direkt aus dem GitHub-Repo auf dem Raspberry Pi).
+#
+# In Portainer:  Stacks → Add stack → "Repository"
+#   - Repository URL:    https://github.com/<DEIN-USER>/<REPO>.git
+#   - Compose path:      docker-compose.yml
+#   - Environment vars:  PAYLOAD_SECRET = <langer Zufallswert>   (siehe DEPLOY.md)
+#
+# Portainer baut das Image aus dem Dockerfile und startet den Container.
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: landshuter-symphonieorchester:latest
+    container_name: lso-web
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      # PAYLOAD_SECRET MUSS gesetzt sein (Portainer → Environment variables)
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET:?PAYLOAD_SECRET muss im Stack gesetzt werden}
+      # Datenbank- und Medienpfad liegen auf persistenten Volumes
+      DATABASE_URI: file:/app/data/landshuter.db
+      MEDIA_DIR: /app/media
+    volumes:
+      - lso_data:/app/data     # SQLite-Datenbank (bleibt bei Updates erhalten)
+      - lso_media:/app/media   # hochgeladene Bilder & PDF-Flyer
+
+volumes:
+  lso_data:
+  lso_media:

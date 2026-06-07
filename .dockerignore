@@ -1,0 +1,26 @@
+# Nicht in den Build-Kontext / nicht ins Image kopieren
+node_modules
+.next
+out
+build
+
+# Lokale Daten & Geheimnisse NIEMALS einbacken
+.env
+*.db
+*.db-shm
+*.db-wal
+media
+
+# Git & Editor
+.git
+.gitignore
+.idea
+.vscode
+.DS_Store
+npm-debug.log*
+*.tsbuildinfo
+next-env.d.ts
+
+# Doku / Claude
+README.md
+.claude
