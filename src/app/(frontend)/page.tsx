@@ -38,10 +38,11 @@ export default async function HomePage() {
     <>
       {/* Hero (Editorial – Solisten-Foto wächst aus dem Bordeaux) */}
       <section className="lso-hero" aria-label={name}>
-        <div className="lso-hero__rule" />
         <div className="lso-hero__photo">
           <img src={heroPhoto} alt={heroAlt} />
         </div>
+        <div className="lso-hero__melt" />
+        <div className="lso-hero__rule" />
         <div className="lso-hero__grain" />
 
         <div className="lso-hero__inner">
