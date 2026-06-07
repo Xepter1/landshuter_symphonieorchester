@@ -279,7 +279,7 @@ async function seedGalleryIfEmpty(payload: Payload) {
   })
 
   // Kein Hero-Platzhalter mehr: das Frontend nutzt standardmäßig das
-  // gebündelte Solisten-Foto (public/hero-solist.jpg). Über Einstellungen →
+  // gebündelte Solisten-Foto (public/hero-solist-clean.jpg). Über Einstellungen →
   // Startseite → Hero-Bild lässt sich jederzeit ein eigenes Bild setzen.
 
   payload.logger.info('✅ Galerie angelegt.')

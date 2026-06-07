@@ -28,7 +28,7 @@ export default async function HomePage() {
   ])
 
   // Foto: CMS-Hero-Bild bevorzugen, sonst das gebündelte Solisten-Foto
-  const heroPhoto = mediaUrl(settings?.heroImage, 'hero') || '/hero-solist.jpg'
+  const heroPhoto = mediaUrl(settings?.heroImage, 'hero') || '/hero-solist-clean.jpg'
   const heroAlt = mediaAlt(settings?.heroImage) || 'Solistin des Landshuter Symphonieorchesters'
   const name = settings?.orchestraName || 'Landshuter Symphonieorchester'
   const tagline =
