@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const name = settings?.orchestraName || 'Landshuter Symphonieorchester'
   const description = settings?.tagline || 'Konzerte, Termine und Neuigkeiten des Orchesters.'
   const base = process.env.PUBLIC_URL || 'http://localhost:3000'
-  const ogImage = mediaUrl(settings?.heroImage, 'hero')
+  const ogImage = '/hero-solist-clean.jpg'
 
   return {
     metadataBase: new URL(base),

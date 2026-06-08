@@ -10,20 +10,6 @@ export async function seedIfEmpty(payload: Payload) {
   await seedContentIfEmpty(payload)
   await seedGalleryIfEmpty(payload)
   await seedLegalIfEmpty(payload)
-  await clearPlaceholderHero(payload)
-}
-
-// Selbstheilung: Wenn das Hero-Bild noch das früher generierte Platzhalter-Bild
-// (Dateiname "hero.jpg") ist, entfernen — dann greift das gebündelte Solisten-Foto.
-// Idempotent: nach einmaligem Leeren passiert nichts mehr.
-async function clearPlaceholderHero(payload: Payload) {
-  const settings = await payload.findGlobal({ slug: 'settings', depth: 1 })
-  const hero: any = settings?.heroImage
-  if (hero && typeof hero === 'object' && hero.filename === 'hero.jpg') {
-    payload.logger.info('🧹 Entferne altes Platzhalter-Hero-Bild (gebündeltes Foto übernimmt) …')
-    const current = await payload.findGlobal({ slug: 'settings', depth: 0 })
-    await payload.updateGlobal({ slug: 'settings', data: { ...current, heroImage: null } as any })
-  }
 }
 
 // Standard-Datenschutzerklärung, passend zum tatsächlichen Datenverhalten

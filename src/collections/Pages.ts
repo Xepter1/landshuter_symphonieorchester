@@ -16,6 +16,11 @@ export const Pages: CollectionConfig = {
   },
   access: {
     read: () => true,
+    // Seiten verwaltet der Entwickler. Redakteure (Kunde) pflegen nur den Inhalt
+    // bestehender Seiten – Neuanlegen und Löschen sind gesperrt, damit die
+    // Menüstruktur (z. B. „Über uns") nicht versehentlich zerstört wird.
+    create: () => false,
+    delete: () => false,
   },
   fields: [
     {
@@ -32,7 +37,9 @@ export const Pages: CollectionConfig = {
       unique: true,
       admin: {
         position: 'sidebar',
-        description: 'Bestimmt die Adresse: /seite/<kürzel>. Wird aus dem Titel erzeugt, falls leer.',
+        readOnly: true,
+        description:
+          'Adresse der Seite (/seite/<kürzel>). Fest hinterlegt, damit Menü-Links nicht brechen – nur der Entwickler ändert sie.',
       },
       hooks: {
         beforeValidate: [

@@ -141,7 +141,7 @@ export interface Page {
   id: number;
   title: string;
   /**
-   * Bestimmt die Adresse: /seite/<kürzel>. Wird aus dem Titel erzeugt, falls leer.
+   * Adresse der Seite (/seite/<kürzel>). Fest hinterlegt, damit Menü-Links nicht brechen – nur der Entwickler ändert sie.
    */
   slug: string;
   heroImage?: (number | null) | Media;
@@ -682,7 +682,6 @@ export interface Setting {
     linkLabel?: string | null;
     linkUrl?: string | null;
   };
-  heroImage?: (number | null) | Media;
   intro?: {
     root: {
       type: string;
@@ -778,7 +777,6 @@ export interface SettingsSelect<T extends boolean = true> {
         linkLabel?: T;
         linkUrl?: T;
       };
-  heroImage?: T;
   intro?: T;
   email?: T;
   phone?: T;

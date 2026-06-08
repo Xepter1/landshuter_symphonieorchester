@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getPayloadClient } from '@/lib/payload'
 import { RichText } from '@/components/RichText'
-import { formatDate, formatTime, mediaUrl, mediaAlt } from '@/lib/format'
+import { formatDate, formatTime, mediaUrl } from '@/lib/format'
 
 export const dynamic = 'force-dynamic'
 
@@ -27,9 +27,9 @@ export default async function HomePage() {
     }),
   ])
 
-  // Foto: CMS-Hero-Bild bevorzugen, sonst das gebündelte Solisten-Foto
-  const heroPhoto = mediaUrl(settings?.heroImage, 'hero') || '/hero-solist-clean.jpg'
-  const heroAlt = mediaAlt(settings?.heroImage) || 'Solistin des Landshuter Symphonieorchesters'
+  // Hero-Foto: fest das gebündelte Solisten-Foto (designkritisch, nicht über CMS änderbar)
+  const heroPhoto = '/hero-solist-clean.jpg'
+  const heroAlt = 'Solistin des Landshuter Symphonieorchesters'
   const name = settings?.orchestraName || 'Landshuter Symphonieorchester'
   const tagline =
     settings?.tagline || 'Sinfonische Musik mit Leidenschaft — getragen von Menschen aus der Region.'

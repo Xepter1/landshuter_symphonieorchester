@@ -77,12 +77,9 @@ export const Settings: GlobalConfig = {
         {
           label: 'Startseite',
           fields: [
-            {
-              name: 'heroImage',
-              type: 'upload',
-              relationTo: 'media',
-              label: 'Großes Kopfbild',
-            },
+            // Das große Kopfbild (Hero) ist designkritisch und wird als
+            // Entwickler-Asset fest gebündelt ausgeliefert – bewusst NICHT über
+            // das CMS änderbar, damit das Layout nicht versehentlich bricht.
             {
               name: 'intro',
               type: 'richText',
