@@ -34,6 +34,13 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    // Branding des Admin-Panels (nur Optik): Xepter-Logo am Login + Bildmarke in der Nav.
+    components: {
+      graphics: {
+        Logo: '/components/admin/Logo',
+        Icon: '/components/admin/Icon',
+      },
+    },
     meta: {
       titleSuffix: ' · Landshuter Symphonieorchester',
       description: 'Verwaltung der Website des Landshuter Symphonieorchesters',
