@@ -36,14 +36,12 @@ export default buildConfig({
     },
     // Branding des Admin-Panels (nur Optik):
     // - Logo: Login-Screen (Wortmarke, theme-abhängig)
-    // - Icon: kleine Bildmarke im Kopf-Bereich
-    // - beforeNavLinks: volle Wortmarke ganz oben in der Sidebar, über den Menüpunkten
+    // - Icon: Wortmarke im festen Kopf-Bereich oben (klappt NICHT mit der Sidebar ein)
     components: {
       graphics: {
         Logo: '/components/admin/Logo',
         Icon: '/components/admin/Icon',
       },
-      beforeNavLinks: ['/components/admin/NavLogo'],
     },
     meta: {
       titleSuffix: ' · Landshuter Symphonieorchester',
